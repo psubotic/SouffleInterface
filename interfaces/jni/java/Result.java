@@ -11,11 +11,10 @@ public class Result {
     nativeHandle = env;
   }
 
-  private native void init();
-
-  public native void print();
   public native void release();
+  public native PrimData getPrimData(String rname);
   public native List<List<String>> getRelationRows(String rname);
+  public native List<String> getRelationNames();
 
   private long nativeHandle;
 }

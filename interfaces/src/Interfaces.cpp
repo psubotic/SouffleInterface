@@ -2,11 +2,11 @@
 
 using namespace souffle;
 
-void InternalInterface::init(AstBuilder* driver) {
+Executor* InternalInterface::parse(AstBuilder* driver) {
     AstTranslationUnit* translationUnit = driver->getTranslationUnit();
     if(translationUnit == NULL) { 
       std::cout << "no translatiopn unit \n";
-      return;
+      return NULL;
     }
 
     // ------- rewriting / optimizations -------------
@@ -28,21 +28,9 @@ void InternalInterface::init(AstBuilder* driver) {
 
     if(ramProgram == nullptr) {
         std::cout << "ram empty \n";
-        return;
+        return NULL;
     }
 
-    //translationUnit->getSymbolTable().print(std::cout);
-
-    exec = new Executor(translationUnit->getSymbolTable(), std::move(ramProgram));
+    return new Executor(translationUnit->getSymbolTable(), std::move(ramProgram));
 }
-
-
-InterfaceResult* InternalInterface::executeInterpreter(RamData* data) {
-  return exec->executeInterpreter(data);
-}
-
-InterfaceResult* InternalInterface::executeCompiler(RamData* data, std::string& filename) {
-  return exec->executeCompiler(data, filename);
-}
-
 

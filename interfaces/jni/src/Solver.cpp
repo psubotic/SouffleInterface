@@ -22,10 +22,16 @@ void Java_com_soufflelang_souffle_Solver_release(JNIEnv *env, jobject obj) {
     delete souffle;
 }
 
-void Java_com_soufflelang_souffle_Solver_parse(JNIEnv* env, jobject obj1, jobject obj2) {
+jobject Java_com_soufflelang_souffle_Solver_parse(JNIEnv* env, jobject obj1, jobject obj2) {
     InternalInterface* souffle = getHandle<InternalInterface>(env, obj1);
     AstBuilder* builder = getHandle<AstBuilder>(env, obj2);
-    souffle->init(builder);
+    Executor* ex = souffle->parse(builder);
+    // Return Executer 
+    jclass c = env->FindClass("com/soufflelang/souffle/Executor");
+    if (c == 0) printf("Find class failed.\n");
+    jmethodID cnstrctr = env->GetMethodID(c, "<init>", "(J)V");
+    if (cnstrctr == 0) printf("Find method failed.\n");
+    return env->NewObject(c, cnstrctr, ex);
 }
 
 jobject Java_com_soufflelang_souffle_Solver_executeInterpreter(JNIEnv* env, jobject obj1, jobject input) {

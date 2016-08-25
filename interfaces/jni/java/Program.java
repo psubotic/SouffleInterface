@@ -18,7 +18,7 @@ public class Program {
 
   private long nativeHandle;
 
-  public void getExample(Program p) {
+  public void getExample1(Program p) {
         // .type Node
         String ty = "Node"; 
         PrimType typ = new PrimType(ty, false);
@@ -28,14 +28,14 @@ public class Program {
         Relation r1 = new Relation("edge");
         r1.addAttribute("node1", ty);
         r1.addAttribute("node2", ty);
-        r1.setAsInput();
+        r1.setAsInputData();
         p.addRelation(r1);
 
         // .decl path (node1:Node, node2:Node) output
         Relation r2 = new Relation("path");
         r2.addAttribute("node1", ty);
         r2.addAttribute("node2", ty);
-        r2.setAsOutput();
+        r2.setAsOutputData();
         p.addRelation(r2);
 
         // path(X,Y) :- path(X,Z), edge(Z,Y).
@@ -72,4 +72,38 @@ public class Program {
         p.addClause(c2);
   }
 
+
+  public void getExample2(Program p) {
+        // .type Node
+        String ty = "Node"; 
+        PrimType typ = new PrimType(ty, false);
+        p.addType(typ);
+
+        // .decl edge (node1:Node, node2:Node) input
+        Relation r1 = new Relation("path");
+        r1.addAttribute("node1", ty);
+        r1.addAttribute("node2", ty);
+        r1.setAsInputData();
+        p.addRelation(r1);
+
+        // .decl path (node1:Node, node2:Node) output
+        Relation r2 = new Relation("path2");
+        r2.addAttribute("node1", ty);
+        r2.addAttribute("node2", ty);
+        r2.setAsOutputData();
+        p.addRelation(r2);
+
+        // path2(X,Y) :- path(X,Y)
+        Clause c1 = new Clause();
+        Atom e2 = new Atom("path2");
+        e2.addArgument(new Var("X"));
+        e2.addArgument(new Var("X"));
+        c1.setHead(e2);
+
+        Atom p2 = new Atom("path");
+        p2.addArgument(new Var("X"));
+        p2.addArgument(new Var("Y"));
+        c1.addToBody(p2);
+        p.addClause(c1);
+  }
 }

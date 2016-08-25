@@ -9,9 +9,11 @@ javac -d . ./jni/java/BinOp.java
 javac -d . ./jni/java/Literal.java 
 javac -d . ./jni/java/Atom.java 
 javac -d . ./jni/java/Negation.java 
+javac -d . ./jni/java/Executor.java 
 javac -d . ./jni/java/Constraint.java 
 javac -d . ./jni/java/Type.java
 javac -d . ./jni/java/PrimType.java 
+javac -d . ./jni/java/PrimData.java 
 javac -d . ./jni/java/Result.java 
 javac -d . ./jni/java/Clause.java 
 javac -d . ./jni/java/Relation.java 
@@ -21,10 +23,12 @@ javac -d . ./jni/java/Solver.java
 
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Result
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Data
+javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.PrimData
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Arg
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.SConst
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Const
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Var
+javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Executor
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.BinOp
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Atom 
 javah -jni -d ./jni/include/generated/ com.soufflelang.souffle.Literal
@@ -40,10 +44,12 @@ g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Negation.cpp -o Negatio
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Constraint.cpp -o Constraint.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Data.cpp -o Data.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Arg.cpp -o Arg.o
+g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/PrimData.cpp -o PrimData.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Result.cpp -o Result.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Var.cpp -o Var.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/BinOp.cpp -o BinOp.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Const.cpp -o Const.o
+g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Executor.cpp -o Executor.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/SConst.cpp -o SConst.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Atom.cpp -o Atom.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Clause.cpp -o Clause.o
@@ -55,10 +61,13 @@ g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./jni/src/Solver.cpp -o Solver.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./src/AstBuilder.cpp -o AstBuilder.o
 g++ -fPIC -g -Wall -std=c++11 $INCLUDE_PATH -c ./src/Interfaces.cpp -o Interfaces.o
 
-g++ -shared -o ./lib/libsouffle.so Program.o Atom.o Clause.o Relation.o Const.o SConst.o Var.o PrimType.o Solver.o Constraint.o Negation.o Interfaces.o AstBuilder.o Data.o Result.o BinOp.o ./lib/libsouffle.a
+g++ -shared -o ./lib/libsouffle.so Program.o Atom.o Clause.o Relation.o PrimData.o Const.o SConst.o Var.o PrimType.o Solver.o Constraint.o Negation.o Interfaces.o AstBuilder.o Data.o Result.o BinOp.o Executor.o ./lib/libsouffle.a
 
 jar cf com.soufflelang.souffle.jar -C ./com/soufflelang/souffle/*.class
 jar uf com.soufflelang.souffle.jar ./com/soufflelang/souffle/Arg.class
 jar uf com.soufflelang.souffle.jar ./com/soufflelang/souffle/Atom.class
 jar uf com.soufflelang.souffle.jar ./com/soufflelang/souffle/Result.class
 jar uf com.soufflelang.souffle.jar ./com/soufflelang/souffle/Data.class
+
+scalac Main.scala
+scala Main

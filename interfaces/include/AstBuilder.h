@@ -56,6 +56,8 @@ public:
 
     bool trace_scanning;
 
+    AstRelation* getRelation(std::string name);
+
     void addRelation(AstRelation *r);
     void addType(AstType *t);
     void addClause(AstClause *c);

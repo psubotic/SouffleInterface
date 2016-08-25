@@ -22,31 +22,29 @@ namespace souffle {
 
 AstBuilder::AstBuilder() : trace_scanning(false), trace_parsing(false) { 
     translationUnit = 
-            new AstTranslationUnit(std::unique_ptr<AstProgram>(new AstProgram()));
+            new AstTranslationUnit(std::unique_ptr<AstProgram>(new AstProgram()), true);
 }
 
 AstBuilder::~AstBuilder() { }
 
 
+AstRelation* AstBuilder::getRelation(std::string name) {
+    return translationUnit->getProgram()->getRelation(name);
+}
+
 void AstBuilder::addRelation(AstRelation *r) {
     const auto& name = r->getName();
-    if (AstRelation *prev = translationUnit->getProgram()->getRelation(name)) {
-        Diagnostic err(Diagnostic::ERROR, DiagnosticMessage("Redefinition of relation " + toString(name), r->getSrcLoc()),
-                {DiagnosticMessage("Previous definition", prev->getSrcLoc())});
-        translationUnit->getErrorReport().addDiagnostic(err);
-        assert(false); 
+    if (translationUnit->getProgram()->getRelation(name)) {
+       return;
     } else {
         translationUnit->getProgram()->addRelation(std::unique_ptr<AstRelation>(r));
     }
 }
 
 void AstBuilder::addType(AstType *type) {
-	const auto& name = type->getName();
-    if (const AstType *prev = translationUnit->getProgram()->getType(name)) {
-        Diagnostic err(Diagnostic::ERROR, DiagnosticMessage("Redefinition of type " + toString(name), type->getSrcLoc()),
-                {DiagnosticMessage("Previous definition", prev->getSrcLoc())});
-        translationUnit->getErrorReport().addDiagnostic(err);
-        assert(false); 
+    const auto& name = type->getName();
+    if (translationUnit->getProgram()->getType(name)) {
+      return;
     } else {
         translationUnit->getProgram()->addType(std::unique_ptr<AstType>(type));
     }

@@ -11,6 +11,7 @@ void Java_com_soufflelang_souffle_Program_init(JNIEnv *env, jobject obj) {
     setHandle(env, obj, builder);
 }
 
+
 void Java_com_soufflelang_souffle_Program_addRelation(JNIEnv *env, jobject obj1, jobject obj2) {
     AstBuilder *prog = getHandle<AstBuilder>(env, obj1);
     AstRelation *rel = getHandle<AstRelation>(env, obj2);

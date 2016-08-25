@@ -74,6 +74,7 @@ struct Flags {
     std::string factFileDir = ".";
     std::string outputHeaderFileName = "";
 
+    bool nowarn  = true;        /* flag for verbose output */
     bool verbose  = false;        /* flag for verbose output */
     bool compile = false;         /* flag for enabling compilation */
     bool tune = false;            /* flag for enabling / disabling the rule scheduler */
@@ -87,7 +88,7 @@ struct Flags {
     /* collect all input files for the C pre-processor */
     std::string filenames = "";
     std::string programName = "";
-    int num_threads = 4;
+    int num_threads = 1;
 };
 
 
@@ -100,7 +101,7 @@ public:
 
     ~InternalInterface(){ delete exec; }
 
-    void init(AstBuilder* driver);
+    Executor* parse(AstBuilder* driver);
     InterfaceResult* executeInterpreter(RamData* data);
     InterfaceResult* executeCompiler(RamData* data, std::string& filename);
     

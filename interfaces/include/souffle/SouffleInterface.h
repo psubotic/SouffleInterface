@@ -248,7 +248,7 @@ public:
     virtual void printAll(std::string dirname=".") = 0; 
 
     // get Relation 
-    Relation *getRelation(const std::string &name) const {
+    Relation* getRelation(const std::string &name) const {
         auto it = relationMap.find(name);
         if(it != relationMap.end()) {
             return (*it).second;
@@ -322,7 +322,6 @@ protected:
     * Find a factory by its name 
     */ 
    static inline ProgramFactory* find(const std::string& factoryName) {
-       std::cout << "called find\n";
        const auto& reg = getFactoryRegistry();
        auto pos = reg.find(factoryName);
        return (pos == reg.end()) ? nullptr : pos->second;
