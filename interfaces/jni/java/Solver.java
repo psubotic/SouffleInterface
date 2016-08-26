@@ -10,9 +10,6 @@ public class Solver {
     public native void init();
     public native void release();
     public native Executor parse(Program p);
-    public native Result executeInterpreter(Data d);
-    public native Result executeCompiler(Data d, String s);
-   
 
     private long nativeHandle;
     private long returnHandle;
