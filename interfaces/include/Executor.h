@@ -80,7 +80,7 @@ public:
 
     if(!existsfile(libname.c_str())) {
       std::cout << "interface: Error! Cannot find library!\n";
-      return false;
+      return NULL;
     }
 
     void *lib_handle;
