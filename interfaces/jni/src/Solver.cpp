@@ -26,35 +26,10 @@ jobject Java_com_soufflelang_souffle_Solver_parse(JNIEnv* env, jobject obj1, job
     InternalInterface* souffle = getHandle<InternalInterface>(env, obj1);
     AstBuilder* builder = getHandle<AstBuilder>(env, obj2);
     Executor* ex = souffle->parse(builder);
-    // Return Executer 
+    // Return Executer
     jclass c = env->FindClass("com/soufflelang/souffle/Executor");
     if (c == 0) printf("Find class failed.\n");
     jmethodID cnstrctr = env->GetMethodID(c, "<init>", "(J)V");
     if (cnstrctr == 0) printf("Find method failed.\n");
     return env->NewObject(c, cnstrctr, ex);
-}
-
-jobject Java_com_soufflelang_souffle_Solver_executeInterpreter(JNIEnv* env, jobject obj1, jobject input) {
-    InternalInterface* souffle = getHandle<InternalInterface>(env, obj1);
-    RamData* data = getHandle<RamData>(env, input);
-    InterfaceResult* res = souffle->executeInterpreter(data);
-    jclass c = env->FindClass("com/soufflelang/souffle/Result");
-    if (c == 0) printf("Find class failed.\n");
-    jmethodID cnstrctr = env->GetMethodID(c, "<init>", "(J)V");
-    if (cnstrctr == 0) printf("Find method failed.\n");
-    return env->NewObject(c, cnstrctr, res);
-}
-
-jobject Java_com_soufflelang_souffle_Solver_executeCompiler(JNIEnv* env, jobject obj1, jobject input, jstring jname) {
-    const char *nname = env->GetStringUTFChars(jname, 0);
-    std::string name = std::string(nname);
-    InternalInterface* souffle = getHandle<InternalInterface>(env, obj1);
-    RamData* data = getHandle<RamData>(env, input);
-    assert(name != "");
-    InterfaceResult* res = souffle->executeCompiler(data, name);
-    jclass c = env->FindClass("com/soufflelang/souffle/Result");
-    if (c == 0) printf("Find class failed.\n");
-    jmethodID cnstrctr = env->GetMethodID(c, "<init>", "(J)V");
-    if (cnstrctr == 0) printf("Find method failed.\n");
-    return env->NewObject(c, cnstrctr, res);
 }
