@@ -47,6 +47,8 @@
 #include "SouffleInterface.h"
 #include "InterfaceResult.h"
 
+#include "Logger.h"
+
 // Shared Library loading
 #include <dlfcn.h>
 
@@ -60,12 +62,17 @@ public:
   {}
 
   InterfaceResult* executeInterpreter(RamData* data) {
+    LOG(INFO) ENTERCPP("executeInterpreter");
+
     RamInterpreter r;
     RamEnvironment* e = r.execute(table, *rp, data);
+
+    LOG(INFO) LEAVECPP;
     return new InterfaceResult(e);
   }
 
   InterfaceResult* executeLoadCompile(RamData* data, std::string& filename) {
+    LOG(INFO) ENTERCPP("executeLoadCompile");
     //lambda to check if file exists
     auto existsfile = [](const std::string& name) -> bool {
       if (FILE *file = fopen(name.c_str(), "r")) {
@@ -139,10 +146,12 @@ public:
     std::chrono::steady_clock::time_point runend= std::chrono::steady_clock::now();
     std::cout << "Run Duration = " << std::chrono::duration_cast<std::chrono::microseconds>(runend - runbegin).count() <<std::endl;
     dlclose(lib_handle);
+    LOG(INFO) LEAVECPP;
     return new InterfaceResult(p);
   }
 
   InterfaceResult* executeCompiler(RamData* data, std::string& filename) {
+    LOG(INFO) ENTERCPP("executeCompile");
     //lambda to check if file exists
     auto existsfile = [](const std::string& name) -> bool {
       if (FILE *file = fopen(name.c_str(), "r")) {
@@ -219,6 +228,7 @@ public:
     std::chrono::steady_clock::time_point runend= std::chrono::steady_clock::now();
     std::cout << "Run Duration = " << std::chrono::duration_cast<std::chrono::microseconds>(runend - runbegin).count() <<std::endl;
     dlclose(lib_handle);
+    LOG(INFO) LEAVECPP;
     return new InterfaceResult(p);
   }
 private:

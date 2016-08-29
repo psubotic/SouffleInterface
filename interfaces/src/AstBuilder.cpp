@@ -27,7 +27,6 @@ AstBuilder::AstBuilder() : trace_scanning(false), trace_parsing(false) {
 
 AstBuilder::~AstBuilder() { }
 
-
 AstRelation* AstBuilder::getRelation(std::string name) {
     return translationUnit->getProgram()->getRelation(name);
 }
@@ -53,9 +52,11 @@ void AstBuilder::addType(AstType *type) {
 void AstBuilder::addClause(AstClause *c) {
     translationUnit->getProgram()->addClause(std::unique_ptr<AstClause>(c));
 }
+
 void AstBuilder::addComponent(AstComponent *c) {
     translationUnit->getProgram()->addComponent(std::unique_ptr<AstComponent>(c));
 }
+
 void AstBuilder::addInstantiation(AstComponentInit *ci) {
     translationUnit->getProgram()->addInstantiation(std::unique_ptr<AstComponentInit>(ci));
 }
@@ -65,7 +66,6 @@ std::string AstBuilder::print() {
    translationUnit->getProgram()->print(ss);
    return ss.str();
 }
-
 
 souffle::SymbolTable &AstBuilder::getSymbolTable() {
     return translationUnit->getSymbolTable();

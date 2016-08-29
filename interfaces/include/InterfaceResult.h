@@ -5,6 +5,8 @@
 #include "RamRelation.h"
 #include "RamData.h"
 
+#include "Logger.h"
+
 namespace souffle {
 
 class InterfaceResult {
@@ -35,42 +37,49 @@ protected:
 
 public:
   std::vector<std::string> getRelationNames() {
+    LOG(INFO) ENTERCPP("getRelationNames");
     std::vector<std::string> vec;
     for (auto &r : p->getOutputRelations()){ 
       vec.push_back(r->getName());
     }
+    
+    LOG(INFO) LEAVECPP;
     return vec;
   }
 
   std::vector<PrimData*> getAllRelations() {
+    LOG(INFO) ENTERCPP("getAllRelations");
+    assert(ty != RESULT_INTERPRETER);
 
-     assert(ty != RESULT_INTERPRETER);
-
-     std::vector<PrimData*> vec;
-     std::vector<Relation*> outputrels = p->getOutputRelations();
-     for(auto& v : outputrels) {
-       vec.push_back(getRelationRowsCompile(v));
-     }
-     return vec; 
+    std::vector<PrimData*> vec;
+    std::vector<Relation*> outputrels = p->getOutputRelations();
+    for(auto& v : outputrels) {
+      vec.push_back(getRelationRowsCompile(v));
+    }
+    LOG(INFO) LEAVECPP;
+    return vec; 
   }
 
   PrimData* getPrimRelation(std::string name) {
+    LOG(INFO) ENTERCPP("getPrimRelation");
     if (ty == RESULT_INTERPRETER) {
       if(!e->hasRelation(name))
         return NULL;
 
       const RamRelation& res = e->getRelation(name);
+      LOG(INFO) LEAVECPP;
       return getRelationRowsInterp(res);
     }
- 
-    else { // Compiler
-      Relation* res = p->getRelation(name);
-      if(res == NULL){
-        std::cout << "relation " << name << " not found!!!";
-        return NULL;
-      }
-      return getRelationRowsCompile(res);
+
+    assert(ty == RESULT_COMPILER);
+    // Compiler
+    Relation* res = p->getRelation(name);
+    if(res == NULL){
+      std::cout << "relation " << name << " not found!!!";
+      return NULL;
     }
+    LOG(INFO) LEAVECPP;
+    return getRelationRowsCompile(res);
   }
 
 private:

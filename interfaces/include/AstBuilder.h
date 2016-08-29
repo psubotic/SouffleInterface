@@ -37,6 +37,8 @@
 #include "BinaryOperator.h"
 #include "AstParserUtils.h"
 
+#include "Logger.h"
+
 namespace souffle {
 
 class AstTranslationUnit;

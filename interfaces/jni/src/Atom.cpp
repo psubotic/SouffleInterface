@@ -11,8 +11,11 @@ void Java_com_soufflelang_souffle_Atom_init(JNIEnv* env, jobject obj, jstring st
     if (NULL == cStr) return;
 
     AstAtom* atom = new AstAtom(AstRelationIdentifier(std::string(cStr)));
+    
     setHandle(env, obj, atom);
 }
+
+// TODO: release
 
 void Java_com_soufflelang_souffle_Atom_addArgument(JNIEnv* env, jobject obj1, jobject obj2) {
     AstAtom *l = getHandle<AstAtom>(env, obj1);

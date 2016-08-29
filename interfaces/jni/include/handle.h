@@ -1,5 +1,6 @@
 #pragma once
 #include <jni.h>
+#include "Logger.h"
 
 inline jfieldID getHandleField(JNIEnv *env, jobject obj)
 {

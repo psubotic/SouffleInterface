@@ -63,13 +63,15 @@
 #include "SymbolTable.h"
 #include "Executor.h"
 
+#include "Logger.h"
+
 namespace souffle {
 
 struct Flags {
     std::string debugReportFile = ""; /* filename to output debug report */
     std::string outputDir = "."; /* output directory for resulting csv files */
     std::string includeOpt = "";      /* include options for c-preprocessor */
-    std::string profile = "";         /* filename of profile log */
+    std::string profile = "./tiros.log";         /* filename of profile log */
     std::string outputFileName = "";
     std::string factFileDir = ".";
     std::string outputHeaderFileName = "";
@@ -78,7 +80,7 @@ struct Flags {
     bool verbose  = false;        /* flag for verbose output */
     bool compile = false;         /* flag for enabling compilation */
     bool tune = false;            /* flag for enabling / disabling the rule scheduler */
-    bool logging = false;         /* flag for profiling */
+    bool logging = true;         /* flag for profiling */
     bool debug = false;           /* flag for enabling debug mode */
     bool generateHeader = false;  /* flag for enabling code generation mode */
 
@@ -88,7 +90,7 @@ struct Flags {
     /* collect all input files for the C pre-processor */
     std::string filenames = "";
     std::string programName = "";
-    int num_threads = 1;
+    int num_threads = 8;
 };
 
 
