@@ -164,7 +164,7 @@ public:
 
     std::string libname = "lib"+ filename + ".so";
     if(!existsfile(libname.c_str())) {
-      std::cout << "interface: Compiling to library\n";
+      LOG(INFO) PRE << "interface: Compiling to library\n";
       std::chrono::steady_clock::time_point compilebegin = std::chrono::steady_clock::now();
       RamCompiler r(filename);
       r.compileToLibrary(table, *rp, filename); // compile it to a library
@@ -179,12 +179,14 @@ public:
 
     lib_handle = dlopen(openfile.c_str(), RTLD_LAZY);
     if (lib_handle == NULL){
+      LOG(ERR) PRE << "interface: Error! Cannot find library\n";
       std::cout << "interface: Error! Cannot find library\n";
       return NULL;
     }
 
     void* temp = dlsym(lib_handle, "getInstance");
     if(temp == NULL) {
+      LOG(ERR) PRE << "interface: Error! Cannot find symbol from lib\n";
       std::cout << "interface: Error! Cannot find symbol from lib\n";
       return NULL;
     }
@@ -193,19 +195,20 @@ public:
 
     SouffleProgram* p = (*fn)(filename.c_str());
     if(p == NULL) {
-      std::cout << "interface: Program not found" << "\n";
+      LOG(ERR) PRE << "interface: Program not found!\n"; 
+      assert(false && "Program not found!");
     }
     std::map<std::string, PrimData*> dmap = data->getDataMap();
 
     for(auto& m : dmap) { 
       Relation* rel = p->getRelation(m.first);
       if (rel == nullptr) {
-        std::cout << "Interface: rel is null, cannot find: " << m.first << "\n";
+        LOG(WARN) PRE << "rel is null, cannot find: " << m.first << "\n"; 
         continue;
       }
 
       if (m.second->data.size() == 0) {
-        std::cout << "Data empty" << "\n";
+        LOG(WARN) PRE << "data is empty " << m.first << "\n"; 
         continue;
       }
       for(auto& row : m.second->data) {
@@ -223,7 +226,6 @@ public:
       } 
     }
     std::chrono::steady_clock::time_point runbegin = std::chrono::steady_clock::now();
-    assert(p != NULL);
     p->run();
     std::chrono::steady_clock::time_point runend= std::chrono::steady_clock::now();
     std::cout << "Run Duration = " << std::chrono::duration_cast<std::chrono::microseconds>(runend - runbegin).count() <<std::endl;
