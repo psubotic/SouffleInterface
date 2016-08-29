@@ -63,8 +63,18 @@ jobject Java_com_soufflelang_souffle_Result_getRelationNames(JNIEnv* env, jobjec
 jobject Java_com_soufflelang_souffle_Result_getPrimData(JNIEnv* env, jobject obj, jstring str) {
     LOG(INFO) ENTERJNI("getPrimData");
     std::string name = std::string(env->GetStringUTFChars(str, 0));
+    LOG(INFO) PRE << "Relation name is " << name << "\n";
+
     InterfaceResult* intres = getHandle<InterfaceResult>(env, obj);
+    if(intres == NULL){
+      LOG(ERR) PRE << "Interface result is null\n";
+      assert(intres != NULL && "Interface result is null!!");
+    }
+
     PrimData* pdata = intres->getPrimRelation(name);
+    if(pdata == NULL){
+      LOG(WARN) PRE << "Prim data is null\n";
+    }
 
     // Create PrimData java Object and add pdata to its oconstructor
     jclass c = env->FindClass("com/soufflelang/souffle/PrimData");
@@ -79,7 +89,15 @@ jobject Java_com_soufflelang_souffle_Result_getRelationRows(JNIEnv* env, jobject
     LOG(INFO) ENTERJNI("getRelationRows");
     std::string name = std::string(env->GetStringUTFChars(str, 0));
     InterfaceResult* intres = getHandle<InterfaceResult>(env, obj);
+    if(intres == NULL){
+      LOG(ERR) PRE << "Interface result is null\n";
+      assert(intres != NULL && "Interface result is null!!");
+    }
+
     PrimData* pdata = intres->getPrimRelation(name);
+    if(pdata == NULL){
+      LOG(WARN) PRE << "Prim data is null\n";
+    }
 
     jclass java_util_ArrayList2 = 
       static_cast<jclass>(env->NewGlobalRef(env->FindClass("java/util/ArrayList")));
@@ -90,7 +108,7 @@ jobject Java_com_soufflelang_souffle_Result_getRelationRows(JNIEnv* env, jobject
       env->GetMethodID(java_util_ArrayList2, "add", "(Ljava/lang/Object;)Z");
 
     if (pdata == NULL) {
-       std::cout << "jni: cannot get relation " << name << "\n";
+       LOG(WARN) PRE << "cannot get relation " << name << "\n";
        jobject result = env->NewObject(java_util_ArrayList2, java_util_ArrayList_2, (jint)0);
        return result;
     }

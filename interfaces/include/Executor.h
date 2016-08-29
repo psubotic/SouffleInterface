@@ -65,7 +65,9 @@ public:
     LOG(INFO) ENTERCPP("executeInterpreter");
 
     RamInterpreter r;
+    LOG(INFO) PRE << "About to run\n"; 
     RamEnvironment* e = r.execute(table, *rp, data);
+    LOG(INFO) PRE << "Ran interpreter\n"; 
 
     LOG(INFO) LEAVECPP;
     return new InterfaceResult(e);
@@ -211,6 +213,8 @@ public:
         LOG(WARN) PRE << "data is empty " << m.first << "\n"; 
         continue;
       }
+
+
       for(auto& row : m.second->data) {
         tuple t(rel);
         int i = 0;
@@ -226,6 +230,7 @@ public:
       } 
     }
     std::chrono::steady_clock::time_point runbegin = std::chrono::steady_clock::now();
+    LOG(INFO) PRE << "About to run\n"; 
     p->run();
     std::chrono::steady_clock::time_point runend= std::chrono::steady_clock::now();
     std::cout << "Run Duration = " << std::chrono::duration_cast<std::chrono::microseconds>(runend - runbegin).count() <<std::endl;
