@@ -32,12 +32,31 @@ AstRelation* AstBuilder::getRelation(std::string name) {
 }
 
 void AstBuilder::addRelation(AstRelation *r) {
+    LOG(INFO) ENTERCPP("Add relation");
     const auto& name = r->getName();
+    LOG(INFO) PRE << "Adding relation " << name << "\n";
     if (translationUnit->getProgram()->getRelation(name)) {
+       LOG(INFO) PRE << "Relation " << name << " already exists\n";
+       LOG(INFO) LEAVECPP;
        return;
-    } else {
-        translationUnit->getProgram()->addRelation(std::unique_ptr<AstRelation>(r));
     }
+
+    translationUnit->getProgram()->addRelation(std::unique_ptr<AstRelation>(r));
+    LOG(INFO) PRE << "Relation " << name << " added to progam\n";
+    LOG(INFO) LEAVECPP;
+}
+
+void AstBuilder::compose(AstBuilder* other){
+  //  AstProgram* p1 = translationUnit->getProgram();
+  //  AstProgram* p2 = other->translationUnit->getProgram();
+
+    //p1->types.insert(p2->types.begin(), p2->types.end());
+    //p1->relations.insert(p2->relations.begin(), p2->relations.end());
+//    p1->clauses.insert(p1->clauses.end(), p2->clauses.begin(), p2->clauses.end());
+    //p1->components.insert( p1->components.end(), p2->components.begin(), p2->components.end());
+    /*p1->instantiations.insert(
+      p1->instantiaitions.end(), p2->instantiations.begin(), p2->instantiations.end()
+    );*/
 }
 
 void AstBuilder::addType(AstType *type) {

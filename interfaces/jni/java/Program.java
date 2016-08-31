@@ -13,6 +13,8 @@ public class Program {
   public native void addType(Type type);
   public native void addClause(Clause clause);
   public native String print();
+  public native void merge(Program p);
+
   //native void addComponent(Component comp); 
   //native void addInstantiation(Instantiation inst);
 

@@ -46,3 +46,11 @@ jstring Java_com_soufflelang_souffle_Program_print(JNIEnv *env, jobject obj1) {
     LOG(INFO) LEAVEJNI;
     return env->NewStringUTF(res.c_str());  
 }
+
+void Java_com_soufflelang_souffle_Program_compose(JNIEnv *env, jobject obj1, jobject obj2) {
+    LOG(INFO) ENTERJNI("merge");
+    AstBuilder *prog1 = getHandle<AstBuilder>(env, obj1);
+    AstBuilder *prog2 = getHandle<AstBuilder>(env, obj2);
+    prog1->compose(prog2);
+    LOG(INFO) LEAVEJNI;
+}

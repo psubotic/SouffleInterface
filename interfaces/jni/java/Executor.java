@@ -10,6 +10,7 @@ public class Executor {
   public native void release();
   public native Result executeCompiler(Data d, String name);
   public native Result executeInterpreter(Data d);
+  public native void compile(String name);
 
   private long nativeHandle;
 }

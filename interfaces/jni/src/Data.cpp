@@ -51,13 +51,14 @@ jobject Java_com_soufflelang_souffle_Data_merge(JNIEnv* env, jobject d1, jobject
 
 void Java_com_soufflelang_souffle_Data_addRelationTuple(JNIEnv* env, jobject obj, jstring str, jobject obj2) {
     LOG(INFO) ENTERJNI("addRelationTuple");
+    std::string name = std::string(env->GetStringUTFChars(str, 0));
+    LOG(MEM) PRE << "RamData for relation " << name << "\n";
 
     RamData* data = getHandle<RamData>(env, obj);
     LOG(MEM) PRE << "Retrieved RamData " << data << "\n";
     assert(data != NULL && "Data is null!!\n");
 
     std::vector<std::string> arr = arr2vec(env, obj2);
-    std::string name = std::string(env->GetStringUTFChars(str, 0));
     data->addTuple(name, arr);
     LOG(INFO) PRE << "Added tuple to data to relation " << name << " of size " << arr.size() << "\n";
     LOG(INFO) LEAVEJNI;
@@ -65,6 +66,9 @@ void Java_com_soufflelang_souffle_Data_addRelationTuple(JNIEnv* env, jobject obj
 
 void Java_com_soufflelang_souffle_Data_addRelationData(JNIEnv* env, jobject obj, jstring str, jobject obj2) {
     LOG(INFO) ENTERJNI("addRelationData");
+    std::string name = std::string(env->GetStringUTFChars(str, 0));
+    LOG(MEM) PRE << "RamData for relation " << name << "\n";
+
     RamData* data = getHandle<RamData>(env, obj);
     assert(data != NULL);
 
@@ -74,7 +78,6 @@ void Java_com_soufflelang_souffle_Data_addRelationData(JNIEnv* env, jobject obj,
     LOG(MEM) PRE << "Got PrimData " << pdata << "\n";
     assert(pdata != NULL && "pdata is null!\n");
 
-    std::string name = std::string(env->GetStringUTFChars(str, 0));
     data->addTuples(name, pdata);
     LOG(INFO) PRE << "Added tuple to data to relation " << name << " with data " << pdata << "\n";
     LOG(INFO) LEAVEJNI;

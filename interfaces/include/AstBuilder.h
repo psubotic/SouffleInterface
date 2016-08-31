@@ -66,6 +66,7 @@ public:
     void addComponent(AstComponent *c);
     void addInstantiation(AstComponentInit *ci);
     std::string print();
+    void compose(AstBuilder* other);
 
     AstTranslationUnit* getTranslationUnit() { 
       return translationUnit;

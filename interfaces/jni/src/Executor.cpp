@@ -82,3 +82,18 @@ jobject Java_com_soufflelang_souffle_Executor_executeCompiler(JNIEnv* env, jobje
     LOG(INFO) LEAVEJNI;
     return env->NewObject(c, cnstrctr, res);
 }
+
+void Java_com_soufflelang_souffle_Executor_compile(JNIEnv* env, jobject obj1, jstring jname) {
+    const char *nname = env->GetStringUTFChars(jname, 0);
+    std::string name = std::string(nname);
+    LOG(INFO) PRE << "Project name is "  << name <<"\n";
+    assert(name != "" && "name is empty!!\n"); 
+
+    Executor* souffle = getHandle<Executor>(env, obj1);
+    LOG(MEM) PRE << "Got executor "  << souffle <<"\n";
+    assert(souffle != NULL && "executor is NULL!!\n");
+
+    souffle->compile(name);
+
+    LOG(INFO) LEAVEJNI;
+}

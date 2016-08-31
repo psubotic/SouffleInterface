@@ -36,7 +36,7 @@ Executor* InternalInterface::parse(AstBuilder* driver) {
 
     /* translate AST to RAM */
     LOG(INFO) PRE << "Translating ram\n";
-    std::unique_ptr<RamStatement> ramProgram = RamTranslator(false).translateProgram(*translationUnit);
+    std::unique_ptr<RamStatement> ramProgram = RamTranslator(true).translateProgram(*translationUnit);
 
     if(ramProgram == nullptr) {
         LOG(WARN) PRE << "Ram is empty!\n";
