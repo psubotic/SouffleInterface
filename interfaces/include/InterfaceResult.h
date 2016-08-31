@@ -41,11 +41,12 @@ public:
     std::vector<std::string> vec;
     LOG(INFO) PRE << "Program is " << p << "\n";
     for (auto &r : p->getOutputRelations()){ 
-      if(r == NULL)
-      {
+      LOG(INFO) PRE << "relation is " << r << " of size " << r->size() << "\n";
+      if(r == nullptr) {
         LOG(INFO) PRE << "relation is null : " << r << "\n";
-        assert(r != NULL && "Relation is null");
+        assert(false && "Relation is null");
       }
+      
       LOG(INFO) PRE << "Adding relation name " << r->getName() << "\n";
       vec.push_back(r->getName());
     }

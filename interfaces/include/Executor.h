@@ -130,12 +130,12 @@ public:
     for(auto& m : dmap) { 
       Relation* rel = p->getRelation(m.first);
       if (rel == nullptr) {
-        LOG(WARN) PRE << "rel is null, cannot find: " << m.first << "\n"; 
+        LOG(WARN) PRE << "WARN: rel is null, cannot find: " << m.first << "\n"; 
         continue;
       }
 
       if (m.second->data.size() == 0) {
-        LOG(WARN) PRE << "data is empty " << m.first << "\n"; 
+        LOG(WARN) PRE << "WARN: data is empty " << m.first << "\n"; 
         continue;
       }
 
