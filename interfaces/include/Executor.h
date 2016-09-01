@@ -159,9 +159,9 @@ public:
     LOG(INFO) PRE << "Ran compiler\n"; 
     std::chrono::steady_clock::time_point runend = std::chrono::steady_clock::now();
     std::cout << "Run duration = " << std::chrono::duration_cast<std::chrono::microseconds>(runend - runbegin).count() << std::endl;
-    p->printAll();
+    //p->printAll();
     LOG(INFO) PRE << "Printed to output\n"; 
-    dlclose(lib_handle);
+    //dlclose(lib_handle);
     LOG(INFO) LEAVECPP;
     return new InterfaceResult(p);
   }

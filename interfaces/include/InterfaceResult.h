@@ -39,8 +39,14 @@ public:
   std::vector<std::string> getRelationNames() {
     LOG(INFO) ENTERCPP("getRelationNames");
     std::vector<std::string> vec;
+
     LOG(INFO) PRE << "Program is " << p << "\n";
-    for (auto &r : p->getOutputRelations()){ 
+    assert(p != NULL);
+
+    std::vector<Relation*> rels = p->getOutputRelations();
+    LOG(INFO) PRE << "vec of relations from program is " << rels.size() << "\n";
+
+    for (auto &r : rels){ 
       LOG(INFO) PRE << "relation is " << r << " of size " << r->size() << "\n";
       if(r == nullptr) {
         LOG(INFO) PRE << "relation is null : " << r << "\n";
