@@ -26,6 +26,14 @@ void Java_com_soufflelang_souffle_Data_release(JNIEnv* env, jobject obj) {
     delete data;
 }
 
+void Java_com_soufflelang_souffle_Data_print(JNIEnv* env, jobject obj) {
+    LOG(INFO) ENTERJNI("print");
+    RamData* data = getHandle<RamData>(env, obj);
+    LOG(MEM) PRE << "Retrieved data object "  << data << "\n";
+    data->print();
+    LOG(INFO) LEAVEJNI;
+}
+
 jobject Java_com_soufflelang_souffle_Data_merge(JNIEnv* env, jobject d1, jobject d2) {
     LOG(INFO) ENTERJNI("merge");
     RamData* data1 = getHandle<RamData>(env, d1);
